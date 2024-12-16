@@ -41,7 +41,7 @@ export default {
             'נוהל 4.4- תיק אישי חניך',
             ],
         ],
-        img: `/src/assets/symbols/subjects/${this.subjectsName}.svg`,
+        img: `../assets/symbols/subjects/${this.subjectsName}.svg`,
         i: this.subNumber,
         showPlaces: 0,
         innerSub: "",

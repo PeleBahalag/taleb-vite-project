@@ -46,7 +46,7 @@
           <p id="text_answer" @click="selectAnswer">{{ answer }}</p>
         </div>
       </div>
-      <div  id="choices_box" v-if="saveName === 2">
+      <div id="choices_box" v-if="saveName === 2">
         <div
           id="choices"
           v-for="(answer, index) in students[currentQuestion].answers"
@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-     <p id="check_button" @click="checkAnswer">בדיקה</p>
+    <p id="check_button" @click="checkAnswer">בדיקה</p>
   </div>
 </template>
 
@@ -96,27 +96,27 @@ export default {
             "התיק נועד לאפשר הכנה מקצועית של המפקד או מדריך, להביא לאחידות מקצועית ולתרום לזיכרון הארגוני.",
         },
         {
-            question: "מה צריך לעשות לאחר שחייל נכשל במועד א?",
-            answers: [
-                "לתת לחייל לעשות את מועד ב ישר לאחר מכן",
-                "לתת לחייל לעשות שוב את אותו המבחן",
-                "לתת לחייל זמן ללמוד ולגשת למועד ב",
-                "לתת לחייל לעשות את מועד ב עם עזרה מהסגל"
-            ],
-            correct_answer: "לתת לחייל זמן ללמוד ולגשת למועד ב",
-
+          question: "מה צריך לעשות לאחר שחייל נכשל במועד א?",
+          answers: [
+            "לתת לחייל לעשות את מועד ב ישר לאחר מכן",
+            "לתת לחייל לעשות שוב את אותו המבחן",
+            "לתת לחייל זמן ללמוד ולגשת למועד ב",
+            "לתת לחייל לעשות את מועד ב עם עזרה מהסגל",
+          ],
+          correct_answer: "לתת לחייל זמן ללמוד ולגשת למועד ב",
         },
       ],
       faculty: [
         {
           question: "מה הוא אינו חלק מהגדרת תפקיד המכ",
           answers: [
-           'יישום תוכנית ההכשרה בהתאם לפק"ש ולדווח על חריגה מהתכנון',
-           'טיפול בפרט',
-           'איתור וטיפול חניכים מתקשים',
-           'תהליך הקניית הכשירות לחניכים וביצוע בקרה ומעקב אחר השגת הכשירויות בהכשרה.'
+            'יישום תוכנית ההכשרה בהתאם לפק"ש ולדווח על חריגה מהתכנון',
+            "טיפול בפרט",
+            "איתור וטיפול חניכים מתקשים",
+            "תהליך הקניית הכשירות לחניכים וביצוע בקרה ומעקב אחר השגת הכשירויות בהכשרה.",
           ],
-          correct_answer: 'תהליך הקניית הכשירות לחניכים וביצוע בקרה ומעקב אחר השגת הכשירויות בהכשרה.',
+          correct_answer:
+            "תהליך הקניית הכשירות לחניכים וביצוע בקרה ומעקב אחר השגת הכשירויות בהכשרה.",
         },
         {
           question:
@@ -178,10 +178,11 @@ export default {
           question: " מה צריך להיות תכונותיו של חניך למופת?",
           answers: [
             "השקעה, יוזמה, עזרה לזולת, התמדה, למידה והשתפרות",
-           "יוזמה, עזרה לזולת, חתירה למצוינות והתמדה",
+            "יוזמה, עזרה לזולת, חתירה למצוינות והתמדה",
             "השקעה, חווד מפקד בולט לחיוב, עצמאות, קבלת האחר",
-            "סוציומטרי עמיתים גבוה מאוד, התמדה, ציון סופי מעל 80, למידה והשתפרות"],
-          correct_answer:  "השקעה, יוזמה, עזרה לזולת, התמדה, למידה והשתפרות",
+            "סוציומטרי עמיתים גבוה מאוד, התמדה, ציון סופי מעל 80, למידה והשתפרות",
+          ],
+          correct_answer: "השקעה, יוזמה, עזרה לזולת, התמדה, למידה והשתפרות",
         },
       ],
       currentQuestion: 0,
@@ -195,34 +196,64 @@ export default {
     selectAnswer(event) {
       var MyAnswer = event.target.innerText;
       this.answered = this.answered + 1;
-      if (this.answered === 4) {
-        document.getElementById("check_button").style.display = "block";
-      }
+      console.log(this.answered);
 
       switch (this.saveName) {
         case 0:
-          if (MyAnswer !== this.program[this.currentQuestion].correct_answer) {
-            this.wrongAnswers = this.wrongAnswers + 1;
+             if (MyAnswer !== this.program[this.currentQuestion].correct_answer) {
+            if (this.program[this.currentQuestion + 1] === undefined) {
+              this.wrongAnswers = this.wrongAnswers + 1;
+              document.getElementById("check_button").style.display = "block";
+            } else {
+              this.wrongAnswers = this.wrongAnswers + 1;
+              this.currentQuestion = this.currentQuestion + 1;
+            }
           } else {
-            this.correctAnswers = this.correctAnswers + 1;
+            if (this.program[this.currentQuestion + 1] === undefined) {
+              this.correctAnswers = this.correctAnswers + 1;
+              document.getElementById("check_button").style.display = "block";
+            } else{
+              this.correctAnswers = this.correctAnswers + 1;
+            this.currentQuestion = this.currentQuestion + 1;
+            } 
           }
-          this.currentQuestion = this.currentQuestion + 1;
           break;
         case 1:
-          if (MyAnswer !== this.faculty[this.currentQuestion].correct_answer) {
-            this.wrongAnswers = this.wrongAnswers + 1;
+            if (MyAnswer !== this.faculty[this.currentQuestion].correct_answer) {
+            if (this.faculty[this.currentQuestion + 1] === undefined) {
+              this.wrongAnswers = this.wrongAnswers + 1;
+              document.getElementById("check_button").style.display = "block";
+            } else {
+              this.wrongAnswers = this.wrongAnswers + 1;
+              this.currentQuestion = this.currentQuestion + 1;
+            }
           } else {
-            this.correctAnswers = this.correctAnswers + 1;
+            if (this.faculty[this.currentQuestion + 1] === undefined) {
+              this.correctAnswers = this.correctAnswers + 1;
+              document.getElementById("check_button").style.display = "block";
+            } else{
+              this.correctAnswers = this.correctAnswers + 1;
+            this.currentQuestion = this.currentQuestion + 1;
+            } 
           }
-          this.currentQuestion = this.currentQuestion + 1;
           break;
         case 2:
           if (MyAnswer !== this.students[this.currentQuestion].correct_answer) {
-            this.wrongAnswers = this.wrongAnswers + 1;
-            this.currentQuestion = this.currentQuestion + 1;
+            if (this.students[this.currentQuestion + 1] === undefined) {
+              this.wrongAnswers = this.wrongAnswers + 1;
+              document.getElementById("check_button").style.display = "block";
+            } else {
+              this.wrongAnswers = this.wrongAnswers + 1;
+              this.currentQuestion = this.currentQuestion + 1;
+            }
           } else {
-            this.correctAnswers = this.correctAnswers + 1;
+            if (this.students[this.currentQuestion + 1] === undefined) {
+              this.correctAnswers = this.correctAnswers + 1;
+              document.getElementById("check_button").style.display = "block";
+            } else{
+              this.correctAnswers = this.correctAnswers + 1;
             this.currentQuestion = this.currentQuestion + 1;
+            } 
           }
           break;
         default:
@@ -320,19 +351,19 @@ export default {
   background-image: url("../assets/gameSymbols/AnswerSymbol.svg");
   background-size: cover;
   background-repeat: no-repeat;
-  width: 76%;
-  height: 13%;
+  width: 75%;
+  height: 18%;
   direction: rtl;
   left: 11%;
-  top: 40%;
+  top: 8%;
 }
 
 #text_answer {
   position: absolute;
   color: white;
-  width: 70%;
-  height: 50%;
-  right: 12%;
+  width: 80%;
+  height: 100%;
+  right: 8%;
   top: 0%;
   font-family: MyFont;
   font-weight: 1000vw;
@@ -363,10 +394,10 @@ export default {
   text-align: center;
 }
 
-#choices_box{
-  height: 90%;
+#choices_box {
+  height: 65%;
   width: 100%;
   left: 0%;
-  top: 0%;
+  top: 30%;
 }
 </style>
